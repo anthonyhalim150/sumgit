@@ -1,0 +1,47 @@
+{
+  "name": "sumgit",
+  "version": "1.0.0",
+  "description": "AI-powered CLI to instantly summarize Git commits, diffs, and generate intelligent commit messages for cleaner repos and better changelogs.",
+  "bin": {
+    "sumgit": "./bin/index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  },
+  "files": [
+  "bin/",
+  "src/",
+  "README.md",
+  "LICENSE"
+  ],
+  "keywords": [
+    "git",
+    "summarizer",
+    "AI",
+    "cli",
+    "commits",
+    "commit messages",
+    "diff summary",
+    "changelog generator",
+    "automated git",
+    "openrouter",
+    "llama",
+    "ai commit generator",
+    "release notes",
+    "developer tools",
+    "version control",
+    "git diff",
+    "ai tools"
+  ],
+  "author": "anthonyhalim150",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthonyhalim150/sumgit"
+  },
+  "homepage": "https://github.com/anthonyhalim150/sumgit#readme",
+  "bugs": {
+    "url": "https://github.com/anthonyhalim150/sumgit/issues"
+  }
+}
