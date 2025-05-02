@@ -15,5 +15,6 @@ export async function summarizeWithAI(prompt) {
 
   const data = await response.json()
   if (data.summary) return data.summary
+
   throw new Error('No summary returned')
 }

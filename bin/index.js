@@ -17,6 +17,7 @@ if (args.includes('-h') || args.includes('--help')) {
 
 const isGenerateMode = args.includes('--gen')
 const shouldAutoCommit = args.includes('--commit')
+const isDryRun = args.includes('--dry-run')
 const isDiffMode = args.includes('--diff')
 const fileFlagIndex = args.findIndex(arg => arg === '--file')
 const filePath = fileFlagIndex !== -1 ? args[fileFlagIndex + 1] : null
@@ -39,14 +40,24 @@ if (filePath) {
 if (isGenerateMode) {
   console.log('Generating commit message from current diff...')
   try {
-    const message = await generateCommitMessageFromDiff()
-    console.log('\nSuggested commit message:')
-    console.log(message)
+    const { title, description } = await generateCommitMessageFromDiff()
+
+    console.log('\nSuggested commit:')
+    console.log('---')
+    console.log(`Title: ${title}\n`)
+    console.log(description)
+    console.log('---')
 
     if (shouldAutoCommit) {
-      execSync('git add .', { stdio: 'inherit' })
-      execSync(`git commit -m "${message.replace(/"/g, '\\"')}"`, { stdio: 'inherit' })
-      console.log('\n✅ Changes committed successfully.')
+      if (isDryRun) {
+        console.log('\n💡 Dry run mode enabled. No changes committed.')
+        console.log(`\n🔧 Would run: git add .`)
+        console.log(`📝 Would run: git commit -m ${JSON.stringify(title)} -m ${JSON.stringify(description)}`)
+      } else {
+        execSync('git add .', { stdio: 'inherit' })
+        execSync(`git commit -m ${JSON.stringify(title)} -m ${JSON.stringify(description)}`, { stdio: 'inherit' })
+        console.log('\n✅ Changes committed successfully.')
+      }
     }
   } catch (error) {
     console.error('Error:', error.message || error)

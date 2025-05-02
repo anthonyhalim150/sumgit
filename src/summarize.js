@@ -68,33 +68,42 @@ export async function generateCommitMessageFromDiff() {
   if (!gitDiff.trim()) throw new Error('No unstaged changes found')
 
   const prompt = `
-You are a senior software engineer writing helpful Git commit messages.
+You are an AI Git commit assistant.
 
-Write a concise, clear, conventional commit message summarizing the following code diff.
+Given this git diff, generate:
 
-Rules:
-- Start with a lowercase verb (e.g., fix, add, refactor)
-- Keep it under 200 characters if possible
-- Avoid unnecessary words
+Title: a one-line commit title (max 60 chars)
+Description: a 2-3 sentence description
 
-Code diff:
+Format:
+Title: <title>
+Description: <description>
 
+Diff:
 ${gitDiff}
-
-Commit message:
 `.slice(0, 4000)
 
   const spinner = ora('Generating commit message from diff...').start()
 
   try {
-    const summary = await summarizeWithAI(prompt)
+    const raw = await summarizeWithAI(prompt)
+
+    const titleMatch = raw.match(/title:\s*(.+)/i)
+    const descMatch = raw.match(/description:\s*([\s\S]*)/i)
+
+    const title = titleMatch?.[1]?.trim()
+    const description = descMatch?.[1]?.trim()
+
+    if (!title || !description) throw new Error('AI did not return title/description')
+
     spinner.succeed('Commit message generated.')
-    return summary
+    return { title, description }
   } catch (error) {
     spinner.fail('Failed to generate commit message.')
     throw error
   }
 }
+
 export async function summarizeFileDiff(path) {
   const gitDiff = execSync(`git diff -- ${path}`, { stdio: 'pipe' }).toString()
   if (!gitDiff.trim()) throw new Error(`No unstaged changes found in "${path}"`)
