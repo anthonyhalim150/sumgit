@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.2 - Added AI Commit Title + Description Support
+## v1.0.3 - Added AI Commit Title + Description Support
 
 ### ✨ New Features
 - `--gen --commit` now generates:
