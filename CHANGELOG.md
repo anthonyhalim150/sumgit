@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.4 – Better commit
+
+### 🧹 Improvements
+- Increased prompt limit to handle large diffs (up to 100k chars)
+- Filters out noisy files like `package-lock.json`, lockfiles, and build logs
+- Truncates overly large diffs per file to avoid context overflow
+- Graceful fallback if AI only returns title
+
 ## v1.0.3 - Added AI Commit Title + Description Support
 
 ### ✨ New Features

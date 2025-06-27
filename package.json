@@ -1,6 +1,6 @@
 {
   "name": "sumgit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "AI-powered CLI to instantly summarize Git commits, diffs, and generate intelligent commit messages for cleaner repos and better changelogs.",
   "bin": {
     "sumgit": "./bin/index.js"
